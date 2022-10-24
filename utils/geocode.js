@@ -17,10 +17,12 @@ const geoCode = (address, callback) => {
                     error: response
                 }, undefined)
             } else {
+                const {latitude, longitude, label: location} = response.data.data[0] 
+                
                 callback(undefined, {
-                    latitude: response.data.data[0].latitude,
-                    longitude: response.data.data[0].longitude,
-                    location: response.data.data[0].label,
+                    latitude,
+                    longitude,
+                    location,
                 })
             }
         } else {

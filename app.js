@@ -22,7 +22,7 @@ yargs.command({
                 if (error) {
                     console.log(chalk.red.inverse(error.message))
                 } else {
-                    weather.getForcast(geoLocationData.latitude, geoLocationData.longitude, (error, forcastData) => {
+                    weather.getForcast(geoLocationData, (error, forcastData) => {
                         if (error) {
                             console.log(chalk.red.inverse(error.message))
                         } else {

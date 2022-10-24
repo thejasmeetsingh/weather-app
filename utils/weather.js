@@ -1,7 +1,7 @@
 const axios = require('axios');
 const apiKeys = require('../api-keys.js')
 
-const forcast = (lat, lng, callback) => {
+const forcast = ({latitude: lat, longitude: lng}, callback) => {
     axios.get('http://api.weatherstack.com/current', {
         params: {
             access_key: apiKeys.weatherStackAccessKey,
@@ -10,9 +10,10 @@ const forcast = (lat, lng, callback) => {
     })
     .then((response) => {
         if (response.status === 200) {
+            const data = response.data.current;
             callback(
                 undefined, 
-                `Current Temprature is ${response.data.current.temperature} degree celsius, Appearently it will feel like ${response.data.current.weather_descriptions[0]}. There is ${response.data.current.precip}% chance of rain.`
+                `Current Temprature is ${data.temperature} degree celsius, Appearently it will feel like ${data.weather_descriptions[0]}. There is ${data.precip}% chance of rain.`
             )
         } else {
             callback({
