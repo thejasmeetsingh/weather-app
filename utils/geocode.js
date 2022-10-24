@@ -20,6 +20,7 @@ const geoCode = (address, callback) => {
                 callback(undefined, {
                     latitude: response.data.data[0].latitude,
                     longitude: response.data.data[0].longitude,
+                    location: response.data.data[0].label,
                 })
             }
         } else {
