@@ -32,7 +32,7 @@ const geoCode = (address, callback) => {
     })
     .catch((error) => {
         callback({
-            message: 'Something went wrong',
+            message: 'Unable to fetch the location',
             error: error
         }, undefined)
     })

@@ -23,7 +23,7 @@ const forcast = (lat, lng, callback) => {
     })
     .catch((error) => {
         callback({
-            message: 'Something went wrong',
+            message: 'Unable to fetch the forcast',
             error: error,
         }, undefined)
     })
