@@ -12,7 +12,7 @@ const forcast = (lat, lng, callback) => {
         if (response.status === 200) {
             callback(
                 undefined, 
-                `Summery: ${response.data.current.weather_descriptions[0]}. Current Temprature is ${response.data.current.temperature} degree celsius. There is ${response.data.current.precip}% chance of rain.`
+                `Current Temprature is ${response.data.current.temperature} degree celsius, Appearently it will feel like ${response.data.current.weather_descriptions[0]}. There is ${response.data.current.precip}% chance of rain.`
             )
         } else {
             callback({
