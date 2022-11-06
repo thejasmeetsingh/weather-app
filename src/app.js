@@ -1,8 +1,43 @@
+const path = require('path');
+
+const express = require('express');
+const hbs = require('hbs');
 const yargs = require('yargs');
 const chalk = require('chalk');
 
 const geoCode = require('./utils/geocode.js');
 const weather = require('./utils/weather.js');
+
+const app = express();
+
+
+// Define paths for Express config
+const publicDirectoryPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views');
+const partialsPath = path.join(__dirname, '../templates/partials')
+
+
+// Setup handlebars engine and views location
+app.set('view engine', 'hbs');
+app.set('views', viewsPath);
+hbs.registerPartials(partialsPath);
+
+
+// Setup static directory to server
+app.use(express.static(publicDirectoryPath));
+
+
+app.get('', (req, res) => {
+    res.render('index', {
+        title: 'Hello Express'
+    })
+});
+
+
+// Running Server on specific port
+app.listen(3000, () => {
+    console.log(chalk.inverse('Server is up!'));
+});
 
 yargs.command({
     command: 'location',
