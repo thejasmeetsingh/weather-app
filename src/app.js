@@ -2,7 +2,6 @@ const path = require('path');
 
 const express = require('express');
 const hbs = require('hbs');
-const yargs = require('yargs');
 const chalk = require('chalk');
 
 const geoCode = require('./utils/geocode.js');
@@ -28,8 +27,35 @@ app.use(express.static(publicDirectoryPath));
 
 
 app.get('', (req, res) => {
-    res.render('index', {
-        title: 'Hello Express'
+    return res.render('index', {
+        title: 'Weather'
+    })
+})
+
+
+app.get('/weather', (req, res) => {
+    if (!req.query.address) {
+        return res.send({ 
+            error: 'You must provide an address'
+         })
+    }
+
+    geoCode.getGeoCode(req.query.address, (error, geoLocationData) => {
+        if (error) {
+            return res.send({ error })
+        } else {
+            weather.getForcast(geoLocationData, (error, forcastData) => {
+                if (error) {
+                    return res.send({ error })
+                } else {
+                    return res.send({
+                        forcast: forcastData,
+                        location: geoLocationData.location,
+                        address: req.query.address,
+                    })
+                }
+            }) 
+        }
     })
 });
 
@@ -46,37 +72,3 @@ app.get('*', (req, res) => {
 app.listen(3000, () => {
     console.log(chalk.inverse('Server is up!'));
 });
-
-yargs.command({
-    command: 'location',
-    describe: 'Input Location',
-    builder: {
-        address: {
-            describe: 'Address',
-            demandOption: true,
-            type: 'string'
-        }
-    },
-    handler(argv) {
-        if (argv.address.length === 0) {
-            console.log(chalk.red.inverse('Address was not provided'))
-        } else {
-            geoCode.getGeoCode(argv.address, (error, geoLocationData) => {
-                if (error) {
-                    console.log(chalk.red.inverse(error.message))
-                } else {
-                    weather.getForcast(geoLocationData, (error, forcastData) => {
-                        if (error) {
-                            console.log(chalk.red.inverse(error.message))
-                        } else {
-                            console.log(chalk.inverse(`Forcast for: ${geoLocationData.location}`))
-                            console.log(chalk.green(forcastData))
-                        }
-                    }) 
-                }
-            })
-        }
-    }
-})
-
-yargs.parse();
