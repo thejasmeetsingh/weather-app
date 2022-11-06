@@ -23,13 +23,21 @@ app.set('views', viewsPath);
 hbs.registerPartials(partialsPath);
 
 
-// Setup static directory to server
+// Setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
 
 app.get('', (req, res) => {
     res.render('index', {
         title: 'Hello Express'
+    })
+});
+
+
+app.get('*', (req, res) => {
+    res.render('404', {
+        title: '404',
+        errorMessage: 'Page not found.'
     })
 });
 
