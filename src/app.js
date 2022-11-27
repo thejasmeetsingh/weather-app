@@ -8,7 +8,7 @@ const geoCode = require('./utils/geocode.js');
 const weather = require('./utils/weather.js');
 
 const app = express();
-
+const port = process.env.PORT || 3000
 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '../public')
@@ -69,6 +69,6 @@ app.get('*', (req, res) => {
 
 
 // Running Server on specific port
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log(chalk.inverse('Server is up!'));
 });
